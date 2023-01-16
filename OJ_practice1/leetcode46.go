@@ -35,30 +35,27 @@ nums 中的所有整数 互不相同
 //切片扩容
 //回溯法
 
-
-
-func backTrace(nums []int) [][]int {
-    n := len(nums)
-    res := make([][]int,sliceLength(n))
-
-    if n == 0 {
-        return nil
-    }
-
-    for i := 0;i < n; i++{
-        cur := nums[i]
-
-        nums = append(nums[:i],nums[i+1:]...)
-         ans := make([]int,0)
-        ans = append(ans,cur)
-        backTrace(nums)
-
-        ans = []int{}
-
-
-    }
-
-}
+//func backTrace(nums []int) [][]int {
+//    n := len(nums)
+//    res := make([][]int, sliceLength(n))
+//
+//    if n == 0 {
+//        return nil
+//    }
+//
+//    for i := 0; i < n; i++ {
+//        cur := nums[i]
+//
+//        nums = append(nums[:i], nums[i+1:]...)
+//        ans := make([]int, 0)
+//        ans = append(ans, cur)
+//        backTrace(nums)
+//
+//        ans = []int{}
+//
+//    }
+//
+//}
 
 //func permute(nums []int) [][]int{
 //    //n := len(nums)
@@ -77,48 +74,49 @@ func backTrace(nums []int) [][]int {
 //    }
 //}
 //计算生成切片的长度
-func sliceLength(n int) int {
-    if n == 1 {
-        return 1
-    }
-    return n * sliceLength(n-1)
-}
+//func sliceLength(n int) int {
+//    if n == 1 {
+//        return 1
+//    }
+//    return n * sliceLength(n-1)
+//}
+
 //生成长度另一种方法
-func permuteCnt(n int) int {
-    ans := 1
-    for i:=0; i<n; i++ {
-        ans = ans * (i+1)
-    }
-    return ans
-}
+//func permuteCnt(n int) int {
+//    ans := 1
+//    for i := 0; i < n; i++ {
+//        ans = ans * (i + 1)
+//    }
+//    return ans
+//}
 
 //func permute(nums []int) [][]int {
-//    res = [][]int{}
-//    backTrack(nums,len(nums),[]int{})
-//    return res
+//   res = [][]int{}
+//   backTrack(nums,len(nums),[]int{})
+//   return res
 //}
 //
 //func backTrack(nums []int,numsLen int,path []int) {
-//    if numsLen == 0 {
-//        res = [][]int{}
-//    }
-//    for i := 0;i < numsLen; i++ {
-//        cur := nums[i]
-//        //已经使用过的
-//        path = append(path,cur)
-//        //剩下的
-//        nums = append(nums[:i],nums[i+1:]...)
-//        backTrack(nums,len(nums),path)
-//        //回溯的时候切片也要复原，元素位置不能变
-//        nums = append(nums[:i],append([]int{cur},nums[i:]...)...)
-//        path = path[:len(path)-1]
-//    }
+//   if numsLen == 0 {
+//       res = [][]int{}
+//   }
+//   for i := 0;i < numsLen; i++ {
+//       cur := nums[i]
+//       //已经使用过的
+//       path = append(path,cur)
+//       //剩下的
+//       nums = append(nums[:i],nums[i+1:]...)
+//       backTrack(nums,len(nums),path)
+//       //回溯的时候切片也要复原，元素位置不能变
+//       nums = append(nums[:i],append([]int{cur},nums[i:]...)...)
+//       path = path[:len(path)-1]
+//   }
 //}
 
 func main() {
-    //nums := []int{1,2,3}
-    //fmt.Println(permute(nums))
-    fmt.Println(sliceLength(4))
+    nums := []int{1, 2, 3}
+    fmt.Println(permute(nums))
+    //fmt.Println(sliceLength(4))
 }
 
 /*
@@ -155,3 +153,32 @@ func permuteCnt(n int) int {
 }
 
 */
+var res [][]int
+
+//2023/1/11 不是说好了返回任意顺序吗
+func permute(nums []int) [][]int {
+    res = make([][]int, 0)
+    trace := make([]int, 0)
+    backTrace(nums, trace)
+    return res
+
+}
+func backTrace(nums []int, trace []int) {
+
+    if len(nums) == 0 {
+        //tmp := append(trace, nums...)
+        //这里确实要变，如果不影响扩缩容，append的指针不会变
+        p := make([]int, len(trace))
+        copy(p, trace)
+        res = append(res, p)
+    }
+    for i := 0; i < len(nums); i++ {
+        //取nums[i]到trace
+        cur := nums[i]
+        trace = append(trace, cur)
+        nums = append(nums[:i], nums[i+1:]...)
+        backTrace(nums, trace)
+        trace = trace[:len(trace)-1]
+        nums = append(nums[:i], append([]int{cur}, nums[i:]...)...)
+    }
+}

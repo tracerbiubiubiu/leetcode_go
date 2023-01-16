@@ -27,35 +27,35 @@ import "fmt"
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 */
-func removeDuplicates(nums []int) int {
-    process := func(k int) int {
-        l := 0
-        p := 1
-        res := 1
-        for i := 1; i < len(nums); i++ {
-            if nums[i] != nums[l] {
-                nums[p] = nums[i]
-                l = i
-                p++
-                res++
-                continue
-            }
-            if i-l < k {
-                nums[p] = nums[i]
-                res++
-                p++
-                continue
-            }
-        }
-        return res
-    }
-    return process(2)
-}
+//func removeDuplicates(nums []int) int {
+//    process := func(k int) int {
+//        l := 0
+//        p := 1
+//        res := 1
+//        for i := 1; i < len(nums); i++ {
+//            if nums[i] != nums[l] {
+//                nums[p] = nums[i]
+//                l = i
+//                p++
+//                res++
+//                continue
+//            }
+//            if i-l < k {
+//                nums[p] = nums[i]
+//                res++
+//                p++
+//                continue
+//            }
+//        }
+//        return res
+//    }
+//    return process(2)
+//}
 
 func main() {
     //nums := []int{1, 1, 1, 2, 2, 3}
-    nums := []int{1, 2, 2, 2}
-    //nums := []int{0, 0, 1, 1, 1, 1, 2, 3, 3}
+    //nums := []int{1, 2, 2, 2}
+    nums := []int{0, 0, 1, 1, 1, 1, 2, 3, 3}
     fmt.Println(removeDuplicates(nums))
 }
 
@@ -80,3 +80,28 @@ func removeDuplicates(nums []int) int {
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 */
+func removeDuplicates(nums []int) int {
+    process := func(k int) int {
+        res := 0
+        w := 0   //写指针
+        cur := 0 //当前元素
+        //k值 v下标 次数 map不够用 得用map[int]struct{}
+        //tmp := make(map[int]int)
+        for i := 0; i < len(nums); i++ { //i为读指针
+            if nums[i] == nums[cur] {
+                if i-cur+1 > k {
+                    continue
+                }
+            } else {
+                cur = i
+            }
+            nums[w] = nums[i]
+            res++
+            w++
+
+        }
+        //fmt.Println(nums)
+        return res
+    }
+    return process(2)
+}

@@ -9,6 +9,12 @@ import (
 /*
 https://leetcode.cn/problems/3sum-closest/
 */
+func min(a, b int) int {
+    if a > b {
+        return b
+    }
+    return a
+}
 
 func doDivide(a, b int) int {
     if a > b {
@@ -29,18 +35,17 @@ func threeSumClosest(nums []int, target int) int {
                 res = tmp
                 res1 = nums[head] + nums[tail] + nums[i]
             }
-            if tail > head+1 && nums[head]+nums[tail]+nums[i]-target > 0 {
+
+            if tail > head && nums[head]+nums[tail]+nums[i]-target > 0 {
                 tail--
-                continue
-            } else if head+1 < tail && nums[head]+nums[tail]+nums[i]-target < 0 {
+            } else if head < tail && nums[head]+nums[tail]+nums[i]-target < 0 {
                 head++
-                continue
             } else if nums[head]+nums[tail]+nums[i]-target == 0 {
                 return target
             }
-            break
 
         }
+
     }
     return res1
 }

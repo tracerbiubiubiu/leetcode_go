@@ -39,6 +39,6 @@ func min(a, b int) int {
 }
 func main() {
     s := "PAYPALISHIRING"
-    numRows := 3
+    numRows := 4
     fmt.Println(convert(s, numRows))
 }

@@ -12,10 +12,10 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
     if length%2 == 0 { //length&1==0
         k1 := length / 2
         k2 := length/2 + 1
-        return float64(getMidNum(nums1, nums2, k1)+getMidNum(nums1, nums2, k2)) / 2.0
+        return float64(handleArray(nums1, nums2, k1)+handleArray(nums1, nums2, k2)) / 2.0
     } else {
         k := (length + 1) / 2
-        return float64(getMidNum(nums1, nums2, k))
+        return float64(handleArray(nums1, nums2, k))
     }
 
 }
@@ -54,7 +54,8 @@ func min(a, b int) int {
 }
 
 //我想的是用递归写
-//也是每次裁剪数组，更新k
+//也是每次裁剪数组，更新k，也是找第k小的数
+//比官方解答好像好一些
 
 func handleArray(nums1, nums2 []int, k int) int {
     //idx1,idx2 := 0,0
